@@ -364,14 +364,17 @@ public class MongoDbClient extends DB {
             DBObject q = new BasicDBObject().append("_id", key);
             DBObject u = new BasicDBObject();
             DBObject fieldsToSet = new BasicDBObject();
+            DBObject incrementField = new BasicDBObject();
             Iterator<String> keys = values.keySet().iterator();
             while (keys.hasNext()) {
                 String tmpKey = keys.next();
                 byte[] data = values.get(tmpKey).toArray();
                 fieldsToSet.put(tmpKey, applyCompressibility(data));
             }
+            incrementField.put("counter", 1);
             u.put("$set", fieldsToSet);
             WriteResult res = collection.update(q, u);
+            u.put("$inc", incrementField);
             if (res.getN() == 0) {
                 System.err.println("Nothing updated for key " + key);
                 return 1;
