@@ -24,7 +24,7 @@ import java.util.Random;
  */
 public class Utils
 {
-  private static final Random rand = new Random();
+  private static final Random rand = new Random(86559820); /* Random seed generated at random.org */
   private static final ThreadLocal<Random> rng = new ThreadLocal<Random>();
 
   public static Random random() {
